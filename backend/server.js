@@ -17,11 +17,10 @@ app.use(cors({
   origin: 'http://localhost:5173'
 }));
 
-// Add CSP headers
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; font-src 'self' https: data:; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+    "default-src 'self'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
   );
   next();
 });
@@ -37,9 +36,15 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
   });
+} else {
+  // Handle the root route in development mode
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
 }
 
 app.listen(PORT, () => {
   connectDB();
   console.log("Server started at http://localhost:" + PORT);
 });
+
