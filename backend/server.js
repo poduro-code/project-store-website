@@ -14,8 +14,17 @@ const __dirname = path.resolve();
 
 // Apply CORS middleware
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: process.env.NODE_ENV === 'production' ? 'https://project-store-website.onrender.com/' : 'http://localhost:5173'
 }));
+
+// Add CSP headers
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; font-src 'self' https: data:; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+  );
+  next();
+});
 
 app.use(express.json());
 
