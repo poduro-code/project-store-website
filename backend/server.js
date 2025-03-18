@@ -14,7 +14,7 @@ const __dirname = path.resolve();
 
 // Apply CORS middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://project-store-website.onrender.com/' : 'http://localhost:5173'
+  origin: 'http://localhost:5173'
 }));
 
 // Add CSP headers
