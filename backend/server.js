@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.route.js";
 import cors from 'cors';
 import path from 'path';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -16,6 +17,9 @@ const __dirname = path.resolve();
 app.use(cors({
   origin: 'http://localhost:5173'
 }));
+
+// Use helmet for setting various HTTP headers
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader(
